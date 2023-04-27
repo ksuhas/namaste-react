@@ -1,4 +1,4 @@
-Namaste React
+# Namaste React
 
 # Parcel
 - Dev Build
@@ -18,3 +18,4 @@ Namaste React
 - HTTP's support
 - Tree Shaking - Remove Unused Code
 - Different Dev and Prod bundles   
+
