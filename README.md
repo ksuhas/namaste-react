@@ -1,6 +1,7 @@
 # Namaste React
 
 # Parcel
+
 - Dev Build
 - Local Server
 - HMR - Hot Module Replacement
@@ -19,3 +20,19 @@
 - Tree Shaking - Remove Unused Code
 - Different Dev and Prod bundles   
 
+
+# Two Types of Import/Export
+
+- Default Export/Import
+    export default Component
+    import Component from 'path'
+
+- Named Export/Import
+    export const Component
+    import {Component} from 'path'
+
+# React Hooks 
+
+- Normal JS Utility Functions
+- useState() - Create/Mainatain state variable of component 
+- useEffect()
