@@ -1,24 +1,55 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import RestaurantCard from './RestaurantCard';
-import resList from '../utils/mockData';
+import { API_URL } from '../utils/constants';
+import Shimmer from './Shimmer';
 
-const Body = ()=>{
+const Body = () => {
 
-    const [filteredList, setFilteredList] = useState(resList);
+    const [allRestaurants, setAllRestaurants] = useState([]);
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
-    handleClick =()=>{
-        const list = resList.filter((res)=>res?.data?.avgRating > 4);
-        setFilteredList(list);
+    useEffect(() => {
+        getRestaurants();
+    }, []);
+
+    const getRestaurants = async () => {
+        const respData = await fetch(API_URL).then(res => res.json());
+        const restList = respData?.data?.cards[2]?.data?.data?.cards;
+        setAllRestaurants(restList);
+        setFilteredRestaurants(restList);
     }
 
-    return(
+    const handleClick = () => {
+        const filteredList = allRestaurants.filter((rest) => rest?.data?.name.toLowerCase().includes(searchText.toLowerCase()));
+        setFilteredRestaurants(filteredList);
+    }
+
+    const handleSearch = (e) => {
+        setSearchText(e.target.value);
+    }
+
+    const handleClearSearch = () => {
+        setSearchText("");
+        setFilteredRestaurants(allRestaurants);
+    }
+
+    if(!allRestaurants) return null;
+
+    return allRestaurants.length == 0 ? <Shimmer /> : (
         <div className='body'>
-            <div className='filter'>
-                <button className='filter-btn' onClick={handleClick} >Top Rated Restaurant</button>
+            <div className='search-container'>
+                <div className='search-box'>
+                    <input type="text" className='search-input' placeholder='Search' value={searchText} onChange={handleSearch} />
+                    {searchText && <button className='clear-search-btn' onClick={handleClearSearch} >X</button>}
+                </div>
+                <button className='search-btn' onClick={handleClick} >Search</button>
             </div>
-            <div className='res-container'>
+            <div className={`res-container ${filteredRestaurants.length == 0} ? justify-content-center : 'justify-content-start'`}>
                 {
-                    filteredList.map((restaurant)=><RestaurantCard key={restaurant.data.id} resObj={restaurant}/>)
+                    filteredRestaurants.length == 0  ? 
+                    <h2>No restaurants match your search !!!</h2> :
+                    filteredRestaurants.map((restaurant) => <RestaurantCard key={restaurant.data.id} resObj={restaurant} />)
                 }
             </div>
         </div>
