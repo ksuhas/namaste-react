@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import RestaurantCard from './RestaurantCard';
 import { API_URL } from '../utils/constants';
 import Shimmer from './Shimmer';
+import { Link } from 'react-router-dom';
+
 
 const Body = () => {
 
@@ -45,11 +47,15 @@ const Body = () => {
                 </div>
                 <button className='search-btn' onClick={handleClick} >Search</button>
             </div>
-            <div className={`res-container ${filteredRestaurants.length == 0} ? justify-content-center : 'justify-content-start'`}>
+            <div className={`res-container ${filteredRestaurants.length == 0 ? 'justify-content-center' : 'justify-content-start'}`}>
                 {
                     filteredRestaurants.length == 0  ? 
                     <h2>No restaurants match your search !!!</h2> :
-                    filteredRestaurants.map((restaurant) => <RestaurantCard key={restaurant.data.id} resObj={restaurant} />)
+                    filteredRestaurants.map((restaurant) => 
+                        <Link to={'/restaurant/'+ restaurant.data.id} key={restaurant.data.id}>
+                             <RestaurantCard resObj={restaurant} />
+                        </Link>
+                    )
                 }
             </div>
         </div>
