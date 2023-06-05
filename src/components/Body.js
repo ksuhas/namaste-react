@@ -36,7 +36,7 @@ const Body = () => {
         setFilteredRestaurants(allRestaurants);
     }
 
-    if(!allRestaurants) return null;
+    if (!allRestaurants) return null;
 
     return allRestaurants.length == 0 ? <Shimmer /> : (
         <div className='body'>
@@ -49,13 +49,13 @@ const Body = () => {
             </div>
             <div className={`res-container ${filteredRestaurants.length == 0 ? 'justify-content-center' : 'justify-content-start'}`}>
                 {
-                    filteredRestaurants.length == 0  ? 
-                    <h2>No restaurants match your search !!!</h2> :
-                    filteredRestaurants.map((restaurant) => 
-                        <Link to={'/restaurant/'+ restaurant.data.id} key={restaurant.data.id}>
-                             <RestaurantCard resObj={restaurant} />
-                        </Link>
-                    )
+                    filteredRestaurants.length == 0 ?
+                        <h2>No restaurants match your search !!!</h2> :
+                        filteredRestaurants.map((restaurant) =>
+                            <Link to={'/restaurant/' + restaurant.data.id} key={restaurant.data.id}>
+                                <RestaurantCard resObj={restaurant} />
+                            </Link>
+                        )
                 }
             </div>
         </div>

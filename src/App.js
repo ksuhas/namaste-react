@@ -10,6 +10,7 @@ import Error from './components/Error';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import RestaurantMenu from './components/RestaurantMenu';
+import Profile from './components/profileClass';
 
 const AppLayout = () => {
     return (
@@ -37,7 +38,11 @@ const appRouter = createBrowserRouter([
             },
             {
                 path: "/about",
-                element: <About />
+                element: <About />,
+                children:[{
+                    path: "profile",
+                    element: <Profile/>
+                }]
             },
             {
                 path: "/cart",
