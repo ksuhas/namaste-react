@@ -1,19 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { CDN_URL } from '../utils/constants'
-import { BIKE_ICON_URL } from '../utils/constants';
-import { TfiAngleDown, TfiAngleUp } from 'react-icons/tfi';
+import { useState } from 'react';
 import { BiFoodTag } from 'react-icons/bi';
 import { MdLocationPin } from 'react-icons/md';
-
+import { TfiAngleDown, TfiAngleUp } from 'react-icons/tfi';
+import { useParams } from 'react-router-dom';
+import { BIKE_ICON_URL, CDN_URL, RESTAURANT_URL } from '../utils/constants';
+import useFetch from '../utils/useFetch';
 
 const RestaurantMenu = () => {
     const { id } = useParams();
-    const [restaurant, setRestaurant] = useState({});
-    const [restaurantMenu, setRestaurantMenu] = useState([]);
     const [detailsShown, setDetailsShown] = useState([]);
-    const [licenceInfo, setLicenceInfo] = useState({});
-    const [addressInfo, setAddressInfo] = useState({});
 
     const toggleShown = category => {
         const shownState = detailsShown.slice();
@@ -27,30 +22,13 @@ const RestaurantMenu = () => {
         }
     };
 
-    useEffect(() => {
-        getRestaurnantInfo();
-    }, []);
-
-    const getRestaurnantInfo = async () => {
-        const restaurantInfo = await fetch("https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=18.4878505&lng=74.0234138&restaurantId=" + id);
-        const jsonResp = await restaurantInfo.json();
-
-        const restInfo = jsonResp?.data?.cards[0]?.card?.card?.info;
-        setRestaurant(restInfo);
-
-        const restMenuInfo = jsonResp?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(c => c.card.card['@type'].includes('ItemCategory')).map(c => c.card.card);
-        setRestaurantMenu(restMenuInfo);
-
-        const titleCategory = restMenuInfo.map(rest => rest.title);
-        setDetailsShown(titleCategory);
-
-        const licenceInfo = jsonResp?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(c => c.card.card['@type'].includes('RestaurantLicenseInfo')).map(c => c.card.card)[0];
-        setLicenceInfo(licenceInfo);
-        console.log(licenceInfo);
-
-        const addressInfo = jsonResp?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(c => c.card.card['@type'].includes('RestaurantAddress')).map(c => c.card.card)[0];
-        setAddressInfo(addressInfo);
-    }
+    const { data: restaurantInfo } = useFetch(RESTAURANT_URL + id);
+    const restaurant = restaurantInfo?.data?.cards[0]?.card?.card?.info;
+    const restaurantMenu = restaurantInfo?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(c => c.card.card['@type'].includes('ItemCategory')).map(c => c.card.card);
+    const titleCategory = restaurantMenu?.map(rest => rest.title);
+    ()=>setDetailsShown(titleCategory);
+    const licenceInfo = restaurantInfo?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(c => c.card.card['@type'].includes('RestaurantLicenseInfo')).map(c => c.card.card)[0];
+    const addressInfo = restaurantInfo?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(c => c.card.card['@type'].includes('RestaurantAddress')).map(c => c.card.card)[0];
 
     return (
         <div className='rest-container'>
@@ -78,7 +56,7 @@ const RestaurantMenu = () => {
             <div className='restMenu'>
                 <div className='position-relative'>
                     {
-                        restaurantMenu.map(rest =>
+                        restaurantMenu?.map(rest =>
                             <>
                                 <div key={'Category:' + rest?.title} className='main-menu-container'>
                                     <button onClick={() => toggleShown(rest.title)} className="group-menu-header-main group-menu-header">

@@ -3,6 +3,7 @@ import RestaurantCard from './RestaurantCard';
 import { API_URL } from '../utils/constants';
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
+import useOnline from '../utils/useOnline';
 
 
 const Body = () => {
@@ -20,6 +21,11 @@ const Body = () => {
         const restList = respData?.data?.cards[2]?.data?.data?.cards;
         setAllRestaurants(restList);
         setFilteredRestaurants(restList);
+    }
+
+    const status = useOnline();
+    if (!status) {
+        return (<div className='body'><h1>You seems offline, Please check your internet connection...</h1></div>)
     }
 
     const handleClick = () => {
