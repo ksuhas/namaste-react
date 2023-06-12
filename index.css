@@ -617,3 +617,10 @@ img {
 .font-weight-300{
  font-weight: 300;
 }
+
+.insta-section{
+    border: 1px solid;
+    margin: 15px;
+    padding: 15px;
+    text-align: left;
+}

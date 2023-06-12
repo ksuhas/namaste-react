@@ -1,5 +1,5 @@
 
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Body from './components/Body';
@@ -10,16 +10,25 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import RestaurantMenu from './components/RestaurantMenu';
 import Profile from './components/profileClass';
+import UserContext from './utils/userContext';
+
 
 const InstaMart = lazy(() => import('./components/Instamart'));
 const About = lazy(() => import('./components/About'));
 
+
 const AppLayout = () => {
+    const [user, setUser] = useState({
+        name: 'John Doe',
+        email: 'john@gmail.com'
+    })
     return (
         <div className='app'>
-            <Header />
-            <Outlet />
-            <Footer />
+            <UserContext.Provider value={{ user: user, setUser : setUser }}>
+                <Header />
+                <Outlet />
+                <Footer />
+            </UserContext.Provider>
         </div>
     )
 }
