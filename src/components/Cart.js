@@ -1,8 +1,36 @@
+import { useSelector } from "react-redux";
+import FoodItem from "./foodItem";
+import { CDN_URL } from "../utils/constants";
+
 const Cart = () => {
-    return(
+    const cart = useSelector(store => store.cart);
+
+    if (!cart.items.length) return(
         <div className="container">
-             <h1>Cart Page</h1>
-            <p>This is the Namaste React Live Course from Cart page</p>
+            <div className="empty-cart-text">Your cart is empty</div>
+        </div>
+    );
+
+    return (
+        <div className="container">
+            <div className="cart-resto-container">
+                <button className="cart-resto-btn">
+                    <span className="cart-resto-image">
+                        <img height="50" width="50" alt="" src={CDN_URL + cart?.restImage} />
+                    </span>
+                    <span className="cart-resto-name-loc">
+                        <div className="cart-resto-name">{cart?.restName}</div>
+                        <div className="cart-resto-location">{cart?.restLocation}</div>
+                    </span>
+                </button>
+                <div className="food-resto-conatiner">
+                    {
+                        cart?.items?.map((item) => {
+                            return <FoodItem key={item?.id} Item={item} />
+                        })
+                    }
+                </div>
+            </div>
         </div>
     );
 }

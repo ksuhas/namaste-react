@@ -1,6 +1,7 @@
 
 import React, { Suspense, lazy, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Body from './components/Body';
 import Cart from './components/Cart';
@@ -10,8 +11,8 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import RestaurantMenu from './components/RestaurantMenu';
 import Profile from './components/profileClass';
+import store from './utils/store';
 import UserContext from './utils/userContext';
-
 
 const InstaMart = lazy(() => import('./components/Instamart'));
 const About = lazy(() => import('./components/About'));
@@ -23,13 +24,15 @@ const AppLayout = () => {
         email: 'john@gmail.com'
     })
     return (
-        <div className='app'>
-            <UserContext.Provider value={{ user: user, setUser : setUser }}>
-                <Header />
-                <Outlet />
-                <Footer />
-            </UserContext.Provider>
-        </div>
+        <Provider store={store}>
+            <div className='app'>
+                <UserContext.Provider value={{ user: user, setUser: setUser }}>
+                    <Header />
+                    <Outlet />
+                    <Footer />
+                </UserContext.Provider>
+            </div>
+        </Provider>
     )
 }
 
