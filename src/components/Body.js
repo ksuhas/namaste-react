@@ -25,7 +25,13 @@ const Body = () => {
 
     const status = useOnline();
     if (!status) {
-        return (<div className='body'><h1>You seems offline, Please check your internet connection...</h1></div>)
+        return (
+            <div className='body'>
+                <div className="container">
+                    <div className="empty-cart-text">You seems offline, Please check your internet connection...</div>
+                </div>
+            </div>
+        )
     }
 
     const handleClick = () => {
@@ -42,18 +48,20 @@ const Body = () => {
         setFilteredRestaurants(allRestaurants);
     }
 
+    // if (!allRestaurants) return (<div className='container'><div className="empty-cart-text">Something went wrong, Please try again later !!!</div></div>);
+
     if (!allRestaurants) return null;
 
     return allRestaurants.length == 0 ? <Shimmer /> : (
         <div className='body'>
             <div className='search-container'>
                 <div className='search-box'>
-                    <input type="text" className='search-input' placeholder='Search' value={searchText} onChange={handleSearch} />
+                    <input type="text" data-testid='search-input' className='search-input' placeholder='Search' value={searchText} onChange={handleSearch} />
                     {searchText && <button className='clear-search-btn' onClick={handleClearSearch} >X</button>}
                 </div>
-                <button className='search-btn' onClick={handleClick} >Search</button>
+                <button data-testid='search-btn' className='search-btn' onClick={handleClick} >Search</button>
             </div>
-            <div className={`res-container ${filteredRestaurants.length == 0 ? 'justify-content-center' : 'justify-content-start'}`}>
+            <div data-testid='rest-list' className={`res-container ${filteredRestaurants.length == 0 ? 'justify-content-center' : 'justify-content-start'}`}>
                 {
                     filteredRestaurants.length == 0 ?
                         <h2>No restaurants match your search !!!</h2> :

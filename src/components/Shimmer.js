@@ -2,7 +2,7 @@ import { ShimmerSectionHeader, ShimmerPostList } from "react-shimmer-effects";
 
 const Shimmer = () => {
     return(
-        <div className="loader-section">
+        <div data-testid="shimmer" className="loader-section">
             <div className="loader-items">
                 <ShimmerSectionHeader subTitle={false} center />
             </div>

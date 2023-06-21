@@ -842,3 +842,16 @@ img {
     text-align: center;
     color: #fff;
 }
+
+.user-status{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    right: 70px;
+    top: 4px;
+}
+
+button:active {
+    transform: translateY(3px);
+}

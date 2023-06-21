@@ -62,7 +62,7 @@ const RestaurantMenu = () => {
                     </ul>
                     <hr className='restHeader-dottedSeparator restHeader-marginBottom'></hr>
                 </div>
-                <div className='restMenu'>
+                <div  data-testid='menu' className='restMenu'>
                     <div className='position-relative'>
                         {
                             restaurantMenu?.map(rest =>
@@ -104,7 +104,7 @@ const RestaurantMenu = () => {
                                                                         </button>
                                                                     </div>) : null
                                                             }
-                                                            <div onClick={() => handleAddItem(itemCard?.card?.info)} className='item-add-button item-add-button-inner'>
+                                                            <div data-testid="add-btn" onClick={() => handleAddItem(itemCard?.card?.info)} className='item-add-button item-add-button-inner'>
                                                                 <div className='add-button-text'>ADD</div>
                                                             </div>
                                                         </div>
